@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: dealership-db
+    environment:
+      POSTGRES_DB: dealership
+      POSTGRES_USER: dealership_user
+      POSTGRES_PASSWORD: dealership_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - dealership-data:/var/lib/postgresql/data
+
+volumes:
+  dealership-data:
