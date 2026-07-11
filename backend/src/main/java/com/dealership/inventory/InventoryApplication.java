@@ -10,5 +10,4 @@ public class InventoryApplication {
 		System.setProperty("user.timezone", "Asia/Kolkata");
 		SpringApplication.run(InventoryApplication.class, args);
 	}
-
 }
