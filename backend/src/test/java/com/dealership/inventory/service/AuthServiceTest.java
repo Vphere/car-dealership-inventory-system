@@ -36,10 +36,9 @@ class AuthServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private JwtService jwtService;          // does not exist yet
+    private JwtService jwtService;
 
-    // class under test — does not exist yet
-    private AuthService authService;        // interface does not exist yet
+    private AuthService authService;
 
     @BeforeEach
     void setUp() {
