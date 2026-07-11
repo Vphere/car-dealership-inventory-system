@@ -1,23 +1,27 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/dealership
-    username: dealership_user
-    password: dealership_pass
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/dealership}
+    username: ${DB_USER:dealership_user}
+    password: ${DB_PASS:dealership_pass}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: validate
-    show-sql: true
+    # Disable open-session-in-view to prevent lazy-loading outside transactions
+    open-in-view: false
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
   flyway:
     enabled: true
     locations: classpath:db/migration
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 jwt:
+  # Base64-encoded 256-bit key. Override JWT_SECRET in production via env/secrets manager.
+  # Generate a fresh one with: openssl rand -base64 32
   secret: ${JWT_SECRET:dGVtcG9yYXJ5LWRldi1zZWNyZXQtbXVzdC1iZS1jaGFuZ2VkIQ==}
-  expiration-ms: 3600000
+  expiration-ms: ${JWT_EXPIRATION_MS:3600000}
