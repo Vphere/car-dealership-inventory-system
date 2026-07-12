@@ -1,0 +1,56 @@
+/*
+  Design tokens — "Instrument Cluster" system.
+  The subject is treated literally: this dashboard borrows its language
+  from a car's own dashboard — a dark cockpit fascia, glowing HUD digits,
+  and gauge needles — rather than a generic dark SaaS theme.
+*/
+
+:root {
+  /* ---- Color: cockpit surfaces ---- */
+  --bg-void: #0a0c10;             /* app background, night cockpit */
+  --bg-panel: #12151b;            /* raised panels: navbar, filter console, cards */
+  --bg-panel-hi: #191d25;         /* hover / elevated panel state */
+  --bg-inset: #0d1014;            /* recessed wells: inputs, gauge track */
+  --line: #232830;                /* hairline borders on dark surfaces */
+  --line-bright: #313742;
+
+  /* ---- Color: HUD accents ---- */
+  --hud-teal: #2dd4bf;            /* healthy / primary glow */
+  --hud-teal-dim: #1a8f82;
+  --hud-teal-wash: rgba(45, 212, 191, 0.12);
+  --amber: #ffb020;               /* low-stock telltale */
+  --amber-wash: rgba(255, 176, 32, 0.14);
+  --ignition: #ff5a36;            /* alerts, destructive, out-of-stock */
+  --ignition-dim: #d9411f;
+  --ignition-wash: rgba(255, 90, 54, 0.14);
+
+  /* ---- Color: text ---- */
+  --text-hi: #f3f6f8;
+  --text-mid: #98a2ae;
+  --text-dim: #5b6470;
+  --text-on-accent: #06110f;
+
+  /* ---- Typography ---- */
+  --font-display: 'Rajdhani', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+  /* ---- Radius / shadow ---- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 28px -10px rgba(0, 0, 0, 0.6);
+  --shadow-modal: 0 24px 70px -16px rgba(0, 0, 0, 0.75);
+  --shadow-glow-teal: 0 0 0 1px rgba(45, 212, 191, 0.3), 0 0 24px rgba(45, 212, 191, 0.18);
+  --shadow-glow-ignition: 0 0 0 1px rgba(255, 90, 54, 0.35), 0 0 24px rgba(255, 90, 54, 0.2);
+
+  /* ---- Spacing scale ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+}

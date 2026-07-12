@@ -1,0 +1,219 @@
+.filter-console {
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--line);
+  padding: var(--space-4) var(--space-6);
+}
+
+.filter-console-heading {
+  margin-bottom: var(--space-3);
+}
+
+.filter-console-heading h2 {
+  font-size: 15.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text-hi);
+  margin-bottom: 2px;
+}
+
+.filter-console-heading p {
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+
+.filter-console-toggle {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  color: var(--text-hi);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 4px 2px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s ease;
+}
+
+.filter-console-toggle:hover {
+  color: var(--hud-teal);
+}
+
+.filter-console-toggle svg {
+  color: var(--hud-teal);
+  transition: transform 0.15s ease;
+}
+
+.filter-console-toggle:hover svg {
+  transform: scale(1.08);
+}
+
+.filter-count-badge {
+  background: var(--hud-teal);
+  color: var(--text-on-accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+
+.filter-chevron {
+  margin-left: auto;
+  color: var(--text-mid);
+  transition: transform 0.15s ease;
+}
+
+.filter-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.filter-console-panel {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* On desktop the panel is always visible, so this wrapper stays invisible
+   to layout (display: contents) — it only becomes a real flex column
+   inside the mobile accordion animation below. */
+.filter-panel-inner {
+  display: contents;
+}
+
+.filter-bar-inputs {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 148px;
+}
+
+.filter-field--narrow {
+  width: 110px;
+}
+
+.filter-field label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.filter-field input {
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  color: var(--text-hi);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  font-size: 13.5px;
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.filter-field input::placeholder {
+  color: var(--text-dim);
+}
+
+.filter-field input:hover {
+  border-color: var(--line-bright);
+  background: var(--bg-panel-hi);
+}
+
+.filter-field input:focus-visible,
+.filter-field input:focus {
+  outline: none;
+  border-color: var(--hud-teal);
+  box-shadow: 0 0 0 3px var(--hud-teal-wash);
+}
+
+.filter-bar-actions {
+  display: flex;
+  align-items: center;
+  padding-bottom: 9px;
+}
+
+.filter-clear-btn {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ignition);
+  border: 1px solid rgba(255, 90, 54, 0.35);
+  background: var(--ignition-wash);
+  padding: 9px var(--space-3);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.filter-clear-btn:hover {
+  border-color: var(--ignition);
+  background: rgba(255, 90, 54, 0.22);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 760px) {
+  .filter-console {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .filter-console-toggle {
+    display: flex;
+  }
+
+  /* Grid-rows trick: animating 0fr -> 1fr on a grid container gives a real
+     smooth expand/collapse (unlike display:none, which just snaps). */
+  .filter-console-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-top: 0;
+    transition: grid-template-rows 0.28s ease, opacity 0.2s ease, margin-top 0.28s ease;
+  }
+
+  .filter-console-panel.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: var(--space-4);
+  }
+
+  .filter-panel-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-4);
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .filter-bar-inputs {
+    gap: var(--space-3);
+  }
+
+  .filter-field,
+  .filter-field--narrow {
+    width: 100%;
+  }
+
+  .filter-bar-actions {
+    padding-bottom: 0;
+  }
+
+  .filter-clear-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

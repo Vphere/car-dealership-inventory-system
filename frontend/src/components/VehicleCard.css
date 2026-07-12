@@ -1,0 +1,282 @@
+@keyframes vcard-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.vcard {
+  position: relative;
+  background: linear-gradient(165deg, var(--bg-panel-hi), var(--bg-panel));
+  border: 1px solid var(--line);
+  color: var(--text-hi);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  animation: vcard-in 0.32s ease both;
+}
+
+.vcard:hover {
+  transform: translateY(-3px);
+  border-color: var(--line-bright);
+  box-shadow: var(--shadow-card);
+}
+
+.vcard-sold-flag {
+  position: absolute;
+  top: var(--space-4);
+  right: -34px;
+  width: 150px;
+  background: var(--ignition);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 4px 0;
+  transform: rotate(38deg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.vcard-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5) 0;
+}
+
+.vcard-category {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+}
+
+/* --- Stock gauge: the signature element, a dashboard-style ring --- */
+.gauge {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.vcard:hover .gauge {
+  transform: scale(1.05);
+}
+
+.gauge-track {
+  stroke: var(--line);
+}
+
+.gauge-value {
+  transition: stroke-dashoffset 0.4s ease;
+}
+
+.gauge--ok .gauge-value { stroke: var(--hud-teal); filter: drop-shadow(0 0 5px rgba(45, 212, 191, 0.55)); }
+.gauge--low .gauge-value { stroke: var(--amber); filter: drop-shadow(0 0 5px rgba(255, 176, 32, 0.55)); }
+.gauge--out .gauge-value { stroke: var(--ignition); filter: drop-shadow(0 0 5px rgba(255, 90, 54, 0.5)); }
+
+.gauge-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--text-hi);
+}
+
+.vcard-body {
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+
+.vcard-heading {
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-hi);
+  margin-bottom: var(--space-3);
+}
+
+.vcard-heading span {
+  color: var(--text-mid);
+  font-weight: 500;
+}
+
+.vcard-price {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--hud-teal);
+  text-shadow: 0 0 20px rgba(45, 212, 191, 0.25);
+  margin-bottom: var(--space-3);
+}
+
+.vcard-price-currency {
+  font-size: 17px;
+  vertical-align: top;
+  margin-right: 2px;
+  opacity: 0.75;
+}
+
+.vcard-stock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text-mid);
+  margin-bottom: var(--space-4);
+}
+
+.vcard-stock-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--hud-teal);
+}
+
+.vcard-stock--low .vcard-stock-dot { background: var(--amber); }
+.vcard-stock--out .vcard-stock-dot { background: var(--ignition); }
+.vcard-stock--low { color: var(--amber); }
+.vcard-stock--out { color: var(--ignition); }
+
+.vcard-purchase {
+  width: 100%;
+  background: linear-gradient(135deg, var(--hud-teal), var(--hud-teal-dim));
+  color: var(--text-on-accent);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.vcard-purchase:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow-teal);
+}
+
+.vcard-purchase:disabled {
+  background: var(--bg-inset);
+  color: var(--text-dim);
+  border: 1px solid var(--line);
+}
+
+.vcard-admin {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--line-bright);
+}
+
+.vcard-admin-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-mid);
+}
+
+.vcard-admin-toggle:hover {
+  color: var(--text-hi);
+}
+
+.vcard-chevron {
+  margin-left: auto;
+  transition: transform 0.15s ease;
+}
+
+.vcard-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.vcard-admin-panel {
+  margin-top: var(--space-3);
+}
+
+.vcard-admin-row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.vcard-admin-row button {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 0;
+  border: 1px solid var(--line-bright);
+  border-radius: var(--radius-sm);
+  color: var(--text-mid);
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.vcard-admin-row button:hover {
+  border-color: var(--hud-teal);
+  color: var(--hud-teal);
+  background: var(--hud-teal-wash);
+  transform: translateY(-1px);
+}
+
+.vcard-admin-delete:hover {
+  border-color: var(--ignition) !important;
+  color: var(--ignition) !important;
+  background: var(--ignition-wash) !important;
+}
+
+.vcard-restock-form {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.vcard-restock-form input {
+  width: 70px;
+  padding: 7px 8px;
+  border: 1px solid var(--line-bright);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+  color: var(--text-hi);
+}
+
+.vcard-restock-form button {
+  flex: 1;
+  background: var(--amber);
+  color: var(--text-on-accent);
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.vcard-restock-form button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px -4px rgba(255, 176, 32, 0.5);
+}
+
+.vcard-restock-form button:disabled {
+  opacity: 0.6;
+}
+
+.vcard--sold .vcard-heading,
+.vcard--sold .vcard-price {
+  opacity: 0.55;
+}

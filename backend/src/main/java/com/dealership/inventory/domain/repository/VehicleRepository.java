@@ -27,19 +27,19 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
      * Searches vehicles with optional nullable filters.
      * Null parameters are treated as "match all" for that field.
      */
-    @Query("""
-            SELECT v FROM Vehicle v
-            WHERE (:make IS NULL OR LOWER(v.make) = LOWER(:make))
-              AND (:model IS NULL OR LOWER(v.model) = LOWER(:model))
-              AND (:category IS NULL OR LOWER(v.category) = LOWER(:category))
-              AND (:minPrice IS NULL OR v.price >= :minPrice)
-              AND (:maxPrice IS NULL OR v.price <= :maxPrice)
-            """)
+    @Query(value = """
+            SELECT * FROM vehicles
+            WHERE (CAST(:make     AS text)    IS NULL OR make     ILIKE '%' || CAST(:make     AS text) || '%')
+              AND (CAST(:model    AS text)    IS NULL OR model    ILIKE '%' || CAST(:model    AS text) || '%')
+              AND (CAST(:category AS text)    IS NULL OR category ILIKE '%' || CAST(:category AS text) || '%')
+              AND (CAST(:minPrice AS numeric) IS NULL OR price >= CAST(:minPrice AS numeric))
+              AND (CAST(:maxPrice AS numeric) IS NULL OR price <= CAST(:maxPrice AS numeric))
+            """, nativeQuery = true)
     List<Vehicle> search(
-            @Param("make") String make,
-            @Param("model") String model,
-            @Param("category") String category,
-            @Param("minPrice") BigDecimal minPrice,
-            @Param("maxPrice") BigDecimal maxPrice
+            @Param("make")      String make,
+            @Param("model")     String model,
+            @Param("category")  String category,
+            @Param("minPrice")  BigDecimal minPrice,
+            @Param("maxPrice")  BigDecimal maxPrice
     );
 }
