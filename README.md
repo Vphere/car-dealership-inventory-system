@@ -22,13 +22,9 @@ A full-stack **Car Dealership Inventory System** built as a TDD kata. The backen
 
 ## Live Demo
 
-🌐 **Frontend (Vercel)**
+🌐 **Website** :  https://car-dealership-inventory-system-lovat.vercel.app/
 
-https://car-dealership-inventory-system-lovat.vercel.app/
-
-⚙️ **Backend API (Render)**
-
-https://car-dealership-inventory-system-a7b7.onrender.com
+⚙️ **Backend API (Render)** : https://car-dealership-inventory-system-a7b7.onrender.com
 
 👤 **Seeded Admin Login**
 
@@ -65,17 +61,8 @@ For local development, PostgreSQL runs in a **Docker** container (port **5433**)
 
 ---
 
-## Live Demo
-
-🔗 **[https://car-dealership-inventory-system-lovat.vercel.app/](https://car-dealership-inventory-system-lovat.vercel.app/)**
-
-Seeded admin login: `admin@dealership.com` / `Admin@1234`
-
----
-
 ## Table of Contents
 
-- [Live Demo](#live-demo)
 - [Features](#features)
 - [Architecture Overview](#architecture-overview)
 - [Tech Stack](#tech-stack)
@@ -84,7 +71,7 @@ Seeded admin login: `admin@dealership.com` / `Admin@1234`
 - [Running Tests](#running-tests)
 - [Environment Variables](#environment-variables)
 - [Frontend](#frontend)
-- [Screenshots](#screenshots)
+- [Screenshots](#-screenshots)
 - [TDD Commit History](#tdd-commit-history)
 - [My AI Usage](#my-ai-usage)
 
@@ -436,4 +423,4 @@ Full history is visible in `git log` on the repository — each commit is scoped
 - **Frontend components** — the frontend (design of all components, styling) was drafted by Claude in one pass based on my description of the visual direction I wanted (an "instrument cluster" theme grounded in the actual dealership subject matter — gauges, HUD digits, dashboard telltale colors — rather than a generic admin dashboard). 
 - **Debugging** — when Spring failed to start because no `PasswordEncoder` bean existed for `AuthServiceImpl` to inject, I described the stack trace to Claude and it identified the missing `@Bean` declaration in `SecurityConfig`.
 
-**Reflection:** AI meaningfully sped up the boilerplate-heavy parts of this build — DTOs, repetitive test setup, and CSS for a design system all would have taken multiples longer to hand-write. It did not replace the judgment calls: deciding *which* HTTP status maps to which exception, confirming the pessimistic-locking approach was actually the right tool for the purchase/restock race condition (rather than just accepting a plausible-sounding suggestion), and manually verifying the security rules actually blocked what they claimed to block were all things I had to check myself rather than trust outright. The biggest risk I noticed with AI-assisted development is that generated code *looks* finished even when it hasn't been verified — so my working rule was: nothing gets committed as "done" until I've either run it against the real database or exercised it through a slice test myself.
+**Reflection:** AI meaningfully speed up the boilerplate-heavy parts of this build — DTOs, repetitive test setup, and CSS for a design system all would have taken multiples longer to hand-write. It did not replace the judgment calls: deciding *which* HTTP status maps to which exception, confirming the pessimistic-locking approach was actually the right tool for the purchase/restock race condition (rather than just accepting a plausible-sounding suggestion), and manually verifying the security rules actually blocked what they claimed to block were all things I had to check myself rather than trust outright. The biggest risk I noticed with AI-assisted development is that generated code *looks* finished even when it hasn't been verified — so my working rule was: nothing gets committed as "done" until I've either run it against the real database or exercised it through a slice test myself.
