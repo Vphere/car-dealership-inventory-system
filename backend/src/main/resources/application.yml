@@ -4,10 +4,17 @@ spring:
     username: ${DB_USER:dealership_user}
     password: ${DB_PASS:dealership_pass}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      # Neon's free tier suspends the compute after idling and wakes on the next connection attempt, which can take a couple seconds.
+      # These settings stop Hikari from giving up or handing out dead connections during that wake-up window.
+      connection-timeout: 20000
+      validation-timeout: 5000
+      maximum-pool-size: 5
+      minimum-idle: 1
+      keepalive-time: 240000
   jpa:
     hibernate:
       ddl-auto: validate
-    # Disable open-session-in-view to prevent lazy-loading outside transactions
     open-in-view: false
     show-sql: false
     properties:
@@ -21,7 +28,18 @@ server:
   port: ${PORT:8080}
 
 jwt:
-  # Base64-encoded 256-bit key. Override JWT_SECRET in production via env/secrets manager.
-  # Generate a fresh one with: openssl rand -base64 32
   secret: ${JWT_SECRET:dGVtcG9yYXJ5LWRldi1zZWNyZXQtbXVzdC1iZS1jaGFuZ2VkIQ==}
   expiration-ms: ${JWT_EXPIRATION_MS:3600000}
+
+app:
+  # Comma-separated list of origins allowed to call this API.
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
