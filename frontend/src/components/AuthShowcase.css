@@ -17,22 +17,21 @@
   text-align: center;
 }
 
-.auth-gauge {
+.auth-showcase-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 168px;
+  height: 168px;
   margin: 0 auto var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--bg-inset);
+  border: 1px solid var(--line-bright);
+  box-shadow: var(--shadow-glow-teal);
 }
 
-.auth-gauge-track {
-  stroke: var(--line-bright);
-}
-
-.auth-gauge-arc {
-  stroke: var(--hud-teal);
-  filter: drop-shadow(0 0 12px rgba(45, 212, 191, 0.55));
-}
-
-.auth-gauge-needle {
-  stroke: var(--ignition);
-  filter: drop-shadow(0 0 6px rgba(255, 90, 54, 0.6));
+.auth-showcase-mark .brand-mark {
+  filter: drop-shadow(0 0 18px rgba(45, 212, 191, 0.35));
 }
 
 .auth-showcase-eyebrow {

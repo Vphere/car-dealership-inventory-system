@@ -1,7 +1,3 @@
-// Shared brand mark for AutoVault: a car silhouette riding above a small
-// bar-chart "stock levels" strip — the two things this app is actually
-// about (cars + inventory counts) drawn as one badge, rather than an
-// abstract gauge or generic speed lines.
 export default function BrandMark({ size = 30, className = '' }) {
   return (
     <svg
@@ -13,7 +9,6 @@ export default function BrandMark({ size = 30, className = '' }) {
     >
       <rect x="0.75" y="0.75" width="30.5" height="30.5" rx="8" fill="var(--bg-inset)" stroke="var(--line-bright)" strokeWidth="1.2" />
 
-      {/* car silhouette */}
       <g className="brand-mark-car">
         <path
           d="M6 18.5 L7.3 13.6c.35-1.3 1.55-2.2 2.9-2.2h1l1.6-2.3c.5-.72 1.32-1.15 2.2-1.15h5.3c.88 0 1.7.43 2.2 1.15l1.6 2.3h1c1.35 0 2.55.9 2.9 2.2l1.3 4.9Z"

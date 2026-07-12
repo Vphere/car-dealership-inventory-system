@@ -5,10 +5,8 @@ import { tokenStore } from '../utils/tokenStore';
 import { AuthContext } from './authContextInstance';
 
 function userFromToken(token) {
-  // Backend puts email in `sub` and role ("USER"/"ADMIN") in a custom
-  // `role` claim — see JwtService#generateToken on the backend.
   const decoded = jwtDecode(token);
-  return { email: decoded.sub, role: decoded.role };
+  return { email: decoded.sub, role: decoded.role, name: decoded.name || null };
 }
 
 export function AuthProvider({ children }) {
@@ -19,8 +17,6 @@ export function AuthProvider({ children }) {
     const token = tokenStore.get();
     if (token) {
       try {
-        // Restoring session state from a token already in storage on first
-        // render — standard hydration-on-mount, not a cascading update loop.
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setUser(userFromToken(token));
       } catch {
@@ -34,13 +30,13 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const { data } = await axiosInstance.post('/auth/login', { email, password });
     tokenStore.set(data.token);
-    setUser({ email: data.email, role: data.role });
+    setUser({ email: data.email, role: data.role, name: data.name || null });
   };
 
-  const register = async (email, password) => {
-    const { data } = await axiosInstance.post('/auth/register', { email, password });
+  const register = async (name, email, password) => {
+    const { data } = await axiosInstance.post('/auth/register', { name, email, password });
     tokenStore.set(data.token);
-    setUser({ email: data.email, role: data.role });
+    setUser({ email: data.email, role: data.role, name: data.name || null });
   };
 
   const logout = () => {

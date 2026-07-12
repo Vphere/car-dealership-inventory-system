@@ -27,7 +27,6 @@ export default function SearchFilterBar({ onSearch }) {
 
   const clear = () => {
     setFilters(EMPTY_FILTERS);
-    // Call immediately on clear — no need to debounce a deliberate reset action.
     onSearch({});
   };
 

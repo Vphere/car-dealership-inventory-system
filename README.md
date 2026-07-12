@@ -1,11 +1,82 @@
-# 🚗 AutoVault — Car Dealership Inventory System
+<h1>
+  <img
+    src="frontend\public\favicon.svg"
+    alt="AutoVault Logo"
+    width="42"
+    style="vertical-align: middle;"
+  />
+  AutoVault — Car Dealership Inventory System
+</h1>
+
+![Java](https://img.shields.io/badge/Java-17-orange)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5-brightgreen)
+![React](https://img.shields.io/badge/React-19-61DAFB)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
+![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED)
+![License](https://img.shields.io/badge/License-MIT-green)
+
 
 A full-stack **Car Dealership Inventory System** built as a TDD kata. The backend is a production-grade REST API built with **Spring Boot 3**, **PostgreSQL**, **Flyway**, and **JWT authentication**. The frontend, **AutoVault**, is a **React (Vite)** single-page app styled as a dark instrument cluster — vehicles are presented as gauge-style cards, prices are shown in ₹ (INR), and stock levels glow teal/amber/red the way a dashboard telltale would.
 
 ---
 
+## Live Demo
+
+🌐 **Frontend (Vercel)**
+
+https://car-dealership-inventory-system-lovat.vercel.app/
+
+⚙️ **Backend API (Render)**
+
+https://car-dealership-inventory-system-a7b7.onrender.com
+
+👤 **Seeded Admin Login**
+
+- Email: `admin@dealership.com`
+- Password: `Admin@1234`
+
+---
+
+## Deployment
+
+### Production
+
+| Component | Platform |
+|-----------|----------|
+| Frontend | Vercel |
+| Backend | Render |
+| Database | Neon PostgreSQL |
+| Monitoring | UptimeRobot |
+
+### Local Development
+
+| Component | Technology |
+|-----------|------------|
+| Frontend | React + Vite |
+| Backend | Spring Boot |
+| Database | PostgreSQL 16 (Docker Compose) |
+| Monitoring | UptimeRobot (health endpoint) |
+
+The frontend is deployed on **Vercel**, the backend on **Render**, and the production database is hosted on **Neon PostgreSQL**.
+
+For local development, PostgreSQL runs in a **Docker** container (port **5433**) to avoid conflicts with a local PostgreSQL installation.
+
+**UptimeRobot** periodically pings `/actuator/health` to reduce Render cold-start delays.
+
+---
+
+## Live Demo
+
+🔗 **[https://car-dealership-inventory-system-lovat.vercel.app/](https://car-dealership-inventory-system-lovat.vercel.app/)**
+
+Seeded admin login: `admin@dealership.com` / `Admin@1234`
+
+---
+
 ## Table of Contents
 
+- [Live Demo](#live-demo)
+- [Features](#features)
 - [Architecture Overview](#architecture-overview)
 - [Tech Stack](#tech-stack)
 - [API Reference](#api-reference)
@@ -18,6 +89,19 @@ A full-stack **Car Dealership Inventory System** built as a TDD kata. The backen
 - [My AI Usage](#my-ai-usage)
 
 ---
+
+## Features
+
+- JWT Authentication
+- Role-based Authorization (ADMIN / USER)
+- Vehicle Search & Filtering
+- Purchase Vehicles
+- Stock Management
+- Admin Dashboard
+- Responsive UI
+- Dockerized PostgreSQL
+- Flyway Database Migrations
+- RESTful API
 
 ## Architecture Overview
 
@@ -50,9 +134,11 @@ A full-stack **Car Dealership Inventory System** built as a TDD kata. The backen
 | Security | Spring Security 6 + JJWT 0.12 |
 | Persistence | Spring Data JPA + Hibernate 6 |
 | Migrations | Flyway 11 |
-| Database | PostgreSQL 16 |
+| Database | PostgreSQL 16 (Docker Local) + Neon PostgreSQL (Production) |
 | Build | Maven (Maven Wrapper included) |
 | Testing | JUnit 5, Mockito, Spring MockMvc |
+| Deployment | Vercel + Render |
+| Monitoring | UptimeRobot |
 | Containers | Docker + Docker Compose |
 
 ---
@@ -63,8 +149,8 @@ A full-stack **Car Dealership Inventory System** built as a TDD kata. The backen
 
 | Method | Path | Body | Response |
 |---|---|---|---|
-| `POST` | `/api/auth/register` | `{ email, password }` | `201` `{ token, email, role }` |
-| `POST` | `/api/auth/login` | `{ email, password }` | `200` `{ token, email, role }` |
+| `POST` | `/api/auth/register` | `{ name, email, password }` | `201` `{ token, name, email, role }` |
+| `POST` | `/api/auth/login` | `{ email, password }` | `200` `{ token, name, email, role }` |
 
 ### Vehicles (requires `Authorization: Bearer <token>`)
 
@@ -135,6 +221,7 @@ Flyway automatically runs all three migrations on first boot:
 | `V1__create_users_table.sql` | Creates `users` table |
 | `V2__create_vehicles_table.sql` | Creates `vehicles` table |
 | `V3__seed_admin_user.sql` | Seeds an admin account |
+| `V4__add_name_to_users.sql` | Add name of user in `users` table |
 
 **Seeded admin credentials:**
 
@@ -149,7 +236,7 @@ Flyway automatically runs all three migrations on first boot:
 # Register
 curl -s -X POST http://localhost:8080/api/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"email":"user@test.com","password":"password123"}' | jq
+  -d '{"name":"Test User","email":"user@test.com","password":"password123"}' | jq
 
 # Login — copy the token
 curl -s -X POST http://localhost:8080/api/auth/login \
@@ -197,6 +284,7 @@ All sensitive values are externalised via env vars with local dev defaults:
 | `DB_URL` | `jdbc:postgresql://localhost:5433/dealership` | JDBC connection string |
 | `DB_USER` | `dealership_user` | Database username |
 | `DB_PASS` | `dealership_pass` | Database password |
+| `ALLOWED_ORIGINS` | `http://localhost:5173,http://localhost:3000` | Comma-separated list of origins permitted by CORS — set to your deployed frontend URL in production |
 | `JWT_SECRET` | *(dev key — see application.yml)* | Base64-encoded 256-bit HMAC-SHA256 key |
 | `JWT_EXPIRATION_MS` | `3600000` | Token TTL in milliseconds (1 hour) |
 | `PORT` | `8080` | HTTP server port |
@@ -226,7 +314,7 @@ openssl rand -base64 32
 
 The dashboard is built around the "instrument cluster" of a car — a dark cockpit fascia, glowing HUD digits, and gauge needles, rather than a generic dark SaaS theme. Each vehicle card carries a circular **stock gauge** (an SVG ring, exactly like a fuel or RPM gauge) that fills and changes color with quantity on hand: teal when healthy, amber when low (≤2 left), red when sold out — the same three-color language used sitewide (search, stats, alerts). Prices are shown in **₹ (INR)** with Indian digit grouping. The **AutoVault** brand mark pairs a small car silhouette with a four-bar "stock levels" strip underneath it, so the logo itself reads as *car + inventory* rather than an abstract icon.
 
-The stats console (total on the lot, average price, low-stock count, sold-out count) is shown to **admins only** — regular signed-in users see the intro copy, the search bar, and the inventory grid without the operational numbers. Out-of-stock vehicles also get a diagonal "Sold out" ribbon on the card itself, so unavailability reads visually and not just through a disabled button.
+The stats console (total in AutoVault, average price, low-stock count, sold-out count) is shown to **admins only** — regular signed-in users see the intro copy, the search bar, and the inventory grid without the operational numbers. Out-of-stock vehicles also get a diagonal "Sold out" ribbon on the card itself, so unavailability reads visually and not just through a disabled button.
 
 Fonts: **Rajdhani** (condensed, for headings and the brand wordmark — reads like dashboard/HUD lettering), **Inter** (body text), **JetBrains Mono** (prices, stock counts, and gauge digits).
 
@@ -246,11 +334,11 @@ frontend/src/
 │   ├── currency.js             # shared ₹ (INR) price formatter, Indian digit grouping
 │   └── tokenStore.js
 ├── components/
-│   ├── Navbar.jsx              # brand mark + AutoVault wordmark, add-vehicle (admin), user chip, sign out
-│   ├── BrandMark.jsx           # shared logo (car silhouette + inventory bar strip), used in Navbar & Footer
+│   ├── Navbar.jsx              # brand mark + AutoVault wordmark, add-vehicle (admin), name +  click-to-reveal email popover, sign out
+│   ├── BrandMark.jsx           # shared logo (car silhouette + inventory bar strip) — used in Navbar, Footer, the login/register showcase panel, and the site favicon
 │   ├── Footer.jsx              # site footer — brand, tagline, copyright
 │   ├── SearchFilterBar.jsx     # intro copy + make/model/category/price-range search
-│   ├── VehicleCard.jsx         # gauge-style stock ring, ₹ price, purchase, admin edit/restock/delete
+│   ├── VehicleCard.jsx         # labeled category, make, model, ₹ price, quantity-in-AutoVault, purchase, admin edit/restock/delete
 │   ├── VehicleFormModal.jsx    # add/edit form (react-hook-form)
 │   ├── ConfirmDialog.jsx       # delete confirmation (no window.confirm)
 │   ├── EmptyState.jsx          # empty lot / no search results
@@ -285,27 +373,39 @@ Role is read from the `role` claim already present in the JWT (see `JwtService`)
 
 ---
 
-## Screenshots
+## 📸 Screenshots
 
 <h3>Authentication</h3>
 
 <p align="center">
-  <img src="docs/screenshots/Register.png" width="48%">
-  <img src="docs/screenshots/Login.png" width="48%">
+  <img src="docs\screenshots\Register.png" width="48%">
+  <img src="docs\screenshots\Login.png" width="48%">
 </p>
 
-<h3>Dashboard</h3>
+---
+
+<h3>Admin Dashboard</h3>
 
 <p align="center">
-  <img src="docs/screenshots/AdminDashboard.png" width="48%">
-  <img src="docs/screenshots/UserDashboard.png" width="48%">
+  <img src="docs\screenshots\AdminDashboard.png" width="80%">
 </p>
 
-<h3>Inventory Management</h3>
+---
+
+<h3>User Dashboard</h3>
 
 <p align="center">
-  <img src="docs/screenshots/AddVehicle.png" width="48%">
-  <img src="docs/screenshots/RemoveVehicle.png" width="48%">
+  <img src="docs\screenshots\UserDashboard_1.png" width="48%">
+  <img src="docs\screenshots\UserDashboard_2.png" width="48%">
+</p>
+
+---
+
+<h3>Inventory Management (Admin only)</h3>
+
+<p align="center">
+  <img src="docs\screenshots\AddVehicle.png" width="48%">
+  <img src="docs\screenshots\RemoveVehicle.png" width="48%">
 </p>
 
 ---

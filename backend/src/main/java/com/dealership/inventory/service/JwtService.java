@@ -27,13 +27,14 @@ public class JwtService {
 
     /**
      * Generates a signed JWT for the given user.
-     * Subject = email; custom claim "role" = role name string.
+     * Subject = email; custom claims: "role" and "name".
      */
     public String generateToken(User user) {
         long now = System.currentTimeMillis();
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claim("role", user.getRole().name())
+                .claim("name", user.getName())
                 .issuedAt(new Date(now))
                 .expiration(new Date(now + expirationMs))
                 .signWith(signingKey)

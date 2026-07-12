@@ -64,7 +64,7 @@ export default function VehicleFormModal({ vehicle, onClose, onSaved }) {
         ? await axiosInstance.put(`/vehicles/${vehicle.id}`, payload)
         : await axiosInstance.post('/vehicles', payload);
 
-      notify(isEdit ? 'Vehicle updated.' : 'Vehicle added to the lot.');
+      notify(isEdit ? 'Vehicle updated.' : 'Vehicle added to AutoVault.');
 
       onSaved(data);
     } catch (err) {

@@ -88,15 +88,14 @@ export default function VehicleCard({ vehicle, isAdmin, onPurchase, onEdit, onDe
       <div className="vcard-top">
         <div className="vcard-category">
           <CategoryIcon />
-          {vehicle.category}
+          <span className="vcard-category-label">Category:</span> {vehicle.category}
         </div>
         <StockGauge quantity={vehicle.quantity} outOfStock={outOfStock} lowStock={lowStock} />
       </div>
 
       <div className="vcard-body">
-        <h3 className="vcard-heading">
-          {vehicle.make} <span>{vehicle.model}</span>
-        </h3>
+        <p className="vcard-make">{vehicle.make}</p>
+        <h3 className="vcard-model">{vehicle.model}</h3>
 
         <div className="vcard-price">
           <span className="vcard-price-currency">₹</span>
@@ -105,7 +104,7 @@ export default function VehicleCard({ vehicle, isAdmin, onPurchase, onEdit, onDe
 
         <div className={`vcard-stock vcard-stock--${outOfStock ? 'out' : lowStock ? 'low' : 'ok'}`}>
           <span className="vcard-stock-dot" />
-          {outOfStock ? 'None on the lot' : lowStock ? `Only ${vehicle.quantity} left` : `${vehicle.quantity} on the lot`}
+          {outOfStock ? 'None in Inventory' : lowStock ? `Only ${vehicle.quantity} left in Inventory` : `Quantity in Inventory: ${vehicle.quantity}`}
         </div>
 
         <button

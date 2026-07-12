@@ -1,5 +1,3 @@
-// Centralized INR formatting so every price on the dashboard (cards, stats,
-// filters) renders consistently with Indian digit grouping (e.g. 1,25,000).
 const inrWhole = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
 const inrDecimal = new Intl.NumberFormat('en-IN', {
   minimumFractionDigits: 2,

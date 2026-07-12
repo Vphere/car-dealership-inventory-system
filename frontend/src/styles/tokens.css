@@ -2,7 +2,7 @@
   Design tokens — "Instrument Cluster" system.
   The subject is treated literally: this dashboard borrows its language
   from a car's own dashboard — a dark cockpit fascia, glowing HUD digits,
-  and gauge needles — rather than a generic dark SaaS theme.
+  and gauge needles.
 */
 
 :root {

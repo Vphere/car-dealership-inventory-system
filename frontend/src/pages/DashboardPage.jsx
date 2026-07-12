@@ -121,7 +121,7 @@ export default function DashboardPage() {
       {isAdmin && !loading && vehicles.length > 0 && (
         <div className="stats-console">
           <div className="stat-tile">
-            <span className="stat-label">On the lot</span>
+            <span className="stat-label">In AutoVault</span>
             <span className="stat-value">{stats.total}</span>
           </div>
           <div className="stat-tile">
@@ -152,12 +152,12 @@ export default function DashboardPage() {
             <Spinner label="Loading inventory" />
           ) : vehicles.length === 0 ? (
             <EmptyState
-              title={hasActiveSearch ? 'No matches' : 'The lot is empty'}
+              title={hasActiveSearch ? 'No matches' : 'AutoVault is empty'}
               message={
                 hasActiveSearch
                   ? 'Nothing matches those filters. Try widening your search.'
                   : isAdmin
-                    ? 'Add the first vehicle to get the lot started.'
+                    ? 'Add the first vehicle to get AutoVault started.'
                     : 'Check back soon — new inventory is added regularly.'
               }
               actionLabel={!hasActiveSearch && isAdmin ? '+ Add vehicle' : undefined}

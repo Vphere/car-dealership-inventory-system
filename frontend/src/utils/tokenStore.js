@@ -1,7 +1,6 @@
 // Session-scoped token storage.
-// Deliberately sessionStorage, not localStorage: the token disappears when
-// the tab closes rather than persisting indefinitely. A production app
-// would move this to an httpOnly cookie set by the server instead.
+// Deliberately sessionStorage, the token disappears when
+// the tab closes rather than persisting indefinitely. 
 const TOKEN_KEY = 'dealership_token';
 
 export const tokenStore = {

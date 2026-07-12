@@ -3,7 +3,8 @@
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   border-bottom: 1px solid var(--line);
-  padding: var(--space-3) var(--space-6);
+  padding: var(--space-4) var(--space-6);
+  min-height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,7 +31,7 @@
 .navbar-word {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 19px;
+  font-size: 21px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-hi);
@@ -62,7 +63,7 @@
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-5);
   flex-wrap: wrap;
 }
 
@@ -84,6 +85,7 @@
 }
 
 .navbar-user {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -95,29 +97,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: var(--bg-inset);
   border: 1px solid var(--line-bright);
   color: var(--hud-teal);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 12.5px;
+  font-size: 13.5px;
   flex-shrink: 0;
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.navbar-user:hover .navbar-avatar {
+.navbar-avatar:hover,
+.navbar-avatar[aria-expanded='true'] {
   transform: scale(1.08);
   border-color: var(--hud-teal);
+  box-shadow: var(--shadow-glow-teal);
 }
 
-.navbar-email {
+.navbar-user-text {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.navbar-name {
   max-width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--text-hi);
+  font-weight: 600;
 }
 
 .navbar-role-chip {
@@ -133,11 +145,47 @@
   border: 1px solid rgba(255, 176, 32, 0.35);
 }
 
+.navbar-email-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--bg-panel-hi);
+  border: 1px solid var(--line-bright);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-modal);
+  z-index: 60;
+  animation: navbar-popover-in 0.15s ease both;
+  white-space: nowrap;
+}
+
+@keyframes navbar-popover-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.navbar-email-popover-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.navbar-email-popover-value {
+  font-size: 13px;
+  color: var(--text-hi);
+}
+
 .navbar-logout {
   font-size: 13px;
   color: var(--text-mid);
   border: 1px solid var(--line-bright);
-  padding: 8px var(--space-3);
+  padding: 9px var(--space-4);
   border-radius: var(--radius-sm);
   transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
 }
@@ -152,6 +200,7 @@
 @media (max-width: 760px) {
   .navbar {
     padding: var(--space-3) var(--space-4);
+    min-height: 64px;
     flex-wrap: wrap;
   }
 
@@ -179,9 +228,14 @@
     padding: var(--space-2) 0;
   }
 
-  .navbar-email {
+  .navbar-name {
     max-width: none;
     flex: 1;
+  }
+
+  .navbar-email-popover {
+    left: 0;
+    right: auto;
   }
 
   .navbar-logout,

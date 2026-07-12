@@ -1,9 +1,7 @@
 import axios from 'axios';
 import { tokenStore } from '../utils/tokenStore';
 
-// Routes that must NOT receive an Authorization header — the backend
-// permits these without a token, and sending a stale one is harmless but
-// pointless. Kept explicit so it's obvious at a glance which routes are public.
+// Routes that must NOT receive an Authorization header — the backend permits these without a token
 const PUBLIC_ROUTES = ['/auth/register', '/auth/login'];
 
 const axiosInstance = axios.create({

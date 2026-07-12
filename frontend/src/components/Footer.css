@@ -2,7 +2,8 @@
   margin-top: auto;
   border-top: 1px solid var(--line);
   background: var(--bg-panel);
-  padding: var(--space-5) var(--space-6);
+  padding: var(--space-7) var(--space-6);
+  min-height: 96px;
   display: flex;
   align-items: center;
   justify-content: space-between;

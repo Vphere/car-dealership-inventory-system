@@ -21,6 +21,12 @@
   box-shadow: var(--shadow-modal);
   padding: var(--space-7) var(--space-6) var(--space-6);
   position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.auth-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-bright);
 }
 
 .auth-card::before {
@@ -85,6 +91,7 @@
   outline: none;
   border-color: var(--hud-teal);
   box-shadow: 0 0 0 3px var(--hud-teal-wash);
+  transform: translateY(-1px);
 }
 
 .auth-field-error {

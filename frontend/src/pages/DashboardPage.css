@@ -5,7 +5,7 @@
 }
 
 .dashboard-intro {
-  padding: var(--space-6) var(--space-6) var(--space-2);
+  padding: var(--space-7) var(--space-6) var(--space-5);
   max-width: 720px;
 }
 
@@ -110,7 +110,7 @@
 
 .vehicle-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
   gap: var(--space-5);
   min-height: 80px;
   transition: opacity 0.2s ease;

@@ -21,9 +21,9 @@
 }
 
 .vcard:hover {
-  transform: translateY(-3px);
-  border-color: var(--line-bright);
-  box-shadow: var(--shadow-card);
+  transform: translateY(-5px);
+  border-color: var(--hud-teal);
+  box-shadow: var(--shadow-card), var(--shadow-glow-teal);
 }
 
 .vcard-sold-flag {
@@ -64,6 +64,10 @@
   color: var(--text-mid);
 }
 
+.vcard-category-label {
+  color: var(--text-dim);
+}
+
 /* --- Stock gauge: the signature element, a dashboard-style ring --- */
 .gauge {
   position: relative;
@@ -102,20 +106,25 @@
 }
 
 .vcard-body {
-  padding: var(--space-4) var(--space-5) var(--space-5);
+  padding: var(--space-5) var(--space-5) var(--space-5);
 }
 
-.vcard-heading {
-  font-size: 20px;
+.vcard-make {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  margin-bottom: 2px;
+}
+
+.vcard-model {
+  font-size: 22px;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--text-hi);
   margin-bottom: var(--space-3);
-}
-
-.vcard-heading span {
-  color: var(--text-mid);
-  font-weight: 500;
 }
 
 .vcard-price {
@@ -276,7 +285,7 @@
   opacity: 0.6;
 }
 
-.vcard--sold .vcard-heading,
+.vcard--sold .vcard-model,
 .vcard--sold .vcard-price {
   opacity: 0.55;
 }

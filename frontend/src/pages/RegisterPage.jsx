@@ -15,10 +15,10 @@ export default function RegisterPage() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = async ({ name, email, password }) => {
     setApiError('');
     try {
-      await registerUser(email, password);
+      await registerUser(name, email, password);
       navigate('/');
     } catch (err) {
       setApiError(err.response?.data?.message || 'Could not create your account.');
@@ -38,6 +38,17 @@ export default function RegisterPage() {
           {apiError && <div className="auth-banner-error">{apiError}</div>}
 
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <div className="auth-field">
+              <label htmlFor="name">Name</label>
+              <input
+                id="name"
+                type="text"
+                autoComplete="name"
+                {...register('name', { required: 'Enter your name.' })}
+              />
+              {errors.name && <p className="auth-field-error">{errors.name.message}</p>}
+            </div>
+
             <div className="auth-field">
               <label htmlFor="email">Email</label>
               <input
