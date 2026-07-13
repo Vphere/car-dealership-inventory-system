@@ -2,19 +2,27 @@ import { useState } from 'react';
 import { formatPrice } from '../utils/currency';
 import './VehicleCard.css';
 
-const GAUGE_CAP = 8; // reference "full lot" for the gauge ring — not a hard limit
 const RADIUS = 26;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 function StockGauge({ quantity, outOfStock, lowStock }) {
-  const pct = Math.max(0, Math.min(quantity / GAUGE_CAP, 1));
-  const offset = CIRCUMFERENCE * (1 - pct);
   const tone = outOfStock ? 'out' : lowStock ? 'low' : 'ok';
 
   return (
-    <div className={`gauge gauge--${tone}`} role="img" aria-label={`${quantity} in stock`}>
+    <div
+      className={`gauge gauge--${tone}`}
+      role="img"
+      aria-label={`${quantity} in stock`}
+    >
       <svg width="64" height="64" viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r={RADIUS} className="gauge-track" strokeWidth="5" fill="none" />
+        <circle
+          cx="32"
+          cy="32"
+          r={RADIUS}
+          className="gauge-track"
+          strokeWidth="5"
+          fill="none"
+        />
+
         <circle
           cx="32"
           cy="32"
@@ -23,11 +31,10 @@ function StockGauge({ quantity, outOfStock, lowStock }) {
           strokeWidth="5"
           fill="none"
           strokeLinecap="round"
-          strokeDasharray={CIRCUMFERENCE}
-          strokeDashoffset={offset}
           transform="rotate(-90 32 32)"
         />
       </svg>
+
       <span className="gauge-number">{quantity}</span>
     </div>
   );
@@ -44,14 +51,30 @@ function CategoryIcon() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <rect x="2.2" y="15.3" width="19.6" height="4.4" rx="1.6" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <rect
+        x="2.2"
+        y="15.3"
+        width="19.6"
+        height="4.4"
+        rx="1.6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
       <circle cx="7" cy="19.7" r="1.6" fill="currentColor" />
       <circle cx="17" cy="19.7" r="1.6" fill="currentColor" />
     </svg>
   );
 }
 
-export default function VehicleCard({ vehicle, isAdmin, onPurchase, onEdit, onDelete, onRestock }) {
+export default function VehicleCard({
+  vehicle,
+  isAdmin,
+  onPurchase,
+  onEdit,
+  onDelete,
+  onRestock,
+}) {
   const [purchasing, setPurchasing] = useState(false);
   const [restockOpen, setRestockOpen] = useState(false);
   const [restockAmount, setRestockAmount] = useState(5);
@@ -64,7 +87,7 @@ export default function VehicleCard({ vehicle, isAdmin, onPurchase, onEdit, onDe
   const handlePurchase = async () => {
     setPurchasing(true);
     try {
-      await onPurchase(vehicle.id);
+      await onPurchase(vehicle.id, vehicle.make, vehicle.model);
     } finally {
       setPurchasing(false);
     }
@@ -73,6 +96,7 @@ export default function VehicleCard({ vehicle, isAdmin, onPurchase, onEdit, onDe
   const handleRestock = async (e) => {
     e.preventDefault();
     setRestocking(true);
+
     try {
       await onRestock(vehicle.id, Number(restockAmount));
       setRestockOpen(false);
@@ -90,7 +114,12 @@ export default function VehicleCard({ vehicle, isAdmin, onPurchase, onEdit, onDe
           <CategoryIcon />
           <span className="vcard-category-label">Category:</span> {vehicle.category}
         </div>
-        <StockGauge quantity={vehicle.quantity} outOfStock={outOfStock} lowStock={lowStock} />
+
+        <StockGauge
+          quantity={vehicle.quantity}
+          outOfStock={outOfStock}
+          lowStock={lowStock}
+        />
       </div>
 
       <div className="vcard-body">
@@ -102,9 +131,17 @@ export default function VehicleCard({ vehicle, isAdmin, onPurchase, onEdit, onDe
           {formatPrice(vehicle.price)}
         </div>
 
-        <div className={`vcard-stock vcard-stock--${outOfStock ? 'out' : lowStock ? 'low' : 'ok'}`}>
+        <div
+          className={`vcard-stock vcard-stock--${
+            outOfStock ? 'out' : lowStock ? 'low' : 'ok'
+          }`}
+        >
           <span className="vcard-stock-dot" />
-          {outOfStock ? 'None in Inventory' : lowStock ? `Only ${vehicle.quantity} left in Inventory` : `Quantity in Inventory: ${vehicle.quantity}`}
+          {outOfStock
+            ? 'None in Inventory'
+            : lowStock
+            ? `Only ${vehicle.quantity} left in Inventory`
+            : `Quantity in Inventory: ${vehicle.quantity}`}
         </div>
 
         <button
@@ -112,7 +149,11 @@ export default function VehicleCard({ vehicle, isAdmin, onPurchase, onEdit, onDe
           disabled={outOfStock || purchasing}
           onClick={handlePurchase}
         >
-          {outOfStock ? 'Unavailable' : purchasing ? 'Purchasing…' : 'Purchase'}
+          {outOfStock
+            ? 'Unavailable'
+            : purchasing
+            ? 'Purchasing…'
+            : 'Purchase'}
         </button>
 
         {isAdmin && (
@@ -124,19 +165,34 @@ export default function VehicleCard({ vehicle, isAdmin, onPurchase, onEdit, onDe
               aria-expanded={adminOpen}
             >
               Manage listing
-              <span className={`vcard-chevron ${adminOpen ? 'is-open' : ''}`} aria-hidden="true">⌄</span>
+              <span
+                className={`vcard-chevron ${adminOpen ? 'is-open' : ''}`}
+                aria-hidden="true"
+              >
+                ⌄
+              </span>
             </button>
 
             {adminOpen && (
               <div className="vcard-admin-panel">
                 <div className="vcard-admin-row">
                   <button onClick={() => onEdit(vehicle)}>Edit</button>
-                  <button onClick={() => setRestockOpen((v) => !v)}>Restock</button>
-                  <button className="vcard-admin-delete" onClick={() => onDelete(vehicle)}>Delete</button>
+                  <button onClick={() => setRestockOpen((v) => !v)}>
+                    Restock
+                  </button>
+                  <button
+                    className="vcard-admin-delete"
+                    onClick={() => onDelete(vehicle)}
+                  >
+                    Delete
+                  </button>
                 </div>
 
                 {restockOpen && (
-                  <form className="vcard-restock-form" onSubmit={handleRestock}>
+                  <form
+                    className="vcard-restock-form"
+                    onSubmit={handleRestock}
+                  >
                     <input
                       type="number"
                       min="1"
@@ -144,6 +200,7 @@ export default function VehicleCard({ vehicle, isAdmin, onPurchase, onEdit, onDe
                       onChange={(e) => setRestockAmount(e.target.value)}
                       aria-label={`Restock amount for ${vehicle.make} ${vehicle.model}`}
                     />
+
                     <button type="submit" disabled={restocking}>
                       {restocking ? 'Adding…' : 'Add stock'}
                     </button>

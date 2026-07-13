@@ -62,11 +62,11 @@ export default function DashboardPage() {
     return { total, avgPrice, lowStock, outOfStock };
   }, [vehicles]);
 
-  const handlePurchase = async (id) => {
+  const handlePurchase = async (id, make, model) => {
     try {
       const { data } = await axiosInstance.post(`/vehicles/${id}/purchase`);
       setVehicles((prev) => prev.map((v) => (v.id === id ? data : v)));
-      notify('Purchase complete. Enjoy the ride.');
+      notify(`${make} ${model} purchased successfully.`);
     } catch (err) {
       notify(err.response?.data?.message || 'Could not complete the purchase.', 'error');
     }
